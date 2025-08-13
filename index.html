@@ -1,0 +1,1367 @@
+<!-- 
+===================================================================================================================
+🗂️ Microsite Page Index — Navigation Targets
+===================================================================================================================
+ID            | Page Title                               | Notes                                                  |
+--------------|------------------------------------------|---------------------------------------------------------
+home          | Home                                     | Welcome message & site overview                        |
+guides        | Guides                                   | ESR Learning Management step-by-step tutorials         |
+faqs          | FAQs                                     | Common issues and troubleshooting steps                |
+SUP           | Support Request                          | Microsoft Forms-based help request form                |
+SaMT          | Statutory & Mandatory Training           | Core NHS-required courses (includes modals)            |
+NSaMT         | Non Statutory & Mandatory Training       | Optional or role-specific training sessions            |
+===================================================================================================================
+Usage:
+Each nav-link uses `onclick="showPage('ID')"` to display the corresponding page div.
+Ensure divs use `<div id="ID" class="page">` and toggle visibility via JS.
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends of Clarence Park</title>
+  <!-- Bootstrap 5.3.6 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Custom Stylesheet -->
+  <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- ================================= -->
+  <!-- ====== HEADER & NAVIGATION ====== -->
+  <!-- ================================= -->
+  <header class="nhs-header">
+    <!-- Hero Banner -->
+    <div class="banner-wrapper text-center position-relative">
+      <img src="https://assets.codepen.io/8889025/FOCP1.jpg" alt="Welcome Hub Banner" class="Banner_image w-100" />
+      <div class="banner-text-overlay">
+        <h1>Friends of Clarence Park</h1>
+      </div>
+    </div>
+
+    <!-- ================================= -->
+    <!-- ====== MAIN NAVIGATION BAR ====== -->
+    <!-- ================================= -->
+    <nav class="navbar navbar-expand-lg mt-3">
+      <div class="container">
+        <!-- Button for toggling the menu on mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu container -->
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav mx-auto">
+
+            <!-- ==== ADD A SINGLE SECTION ==== -->
+            <!-- To add a new section (simple link), copy and update one of the lines below -->
+            <li class="nav-item"><a class="nav-link" onclick="showPage('home')">Home</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showPage('AU')">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showPage('NaU')">News & Updates</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showPage('E')">Events</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showPage('G')">Groups</a></li>
+
+            <!-- ==== ADD A DROPDOWN MENU ==== -->
+            <!-- To create a dropdown menu, use this structure -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Park History</a>
+              <ul class="dropdown-menu">
+
+                <!-- ==== ADD A NORMAL DROPDOWN ITEM ==== -->
+                <!-- Each dropdown item below links to a page -->
+                <li><a class="dropdown-item" onclick="showPage('PO')">Park Opening</a></li>
+                <li><a class="dropdown-item" onclick="showPage('AIPC')">AI Enhanced Postcards</a></li>
+                <!-- ==== ADD A SUBMENU ==== -->
+                <!-- To add a submenu (nested within dropdown), use this structure 
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item submenu-toggle" href="#" onclick="showPage('NSMT')">Non Statutory and Mandatory Training</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="showPage('NSaMT1')">eLearning Modules</a></li>
+                    <li><a class="dropdown-item" onclick="showPage('NSaMT2')">Workshops</a></li>
+                    <li><a class="dropdown-item" onclick="showPage('NSaMT3')">Coaching Sessions</a></li>
+                  </ul>
+                </li>-->
+                <!-- ==== END SUBMENU ==== -->
+
+              </ul>
+            </li>
+            <!-- ==== END DROPDOWN MENU ==== -->
+            <!-- Collapsible Toolbar -->
+            <details class="mobile-toolbar d-sm-none mt-3">
+              <summary class="btn btn-outline-secondary w-100">Search & Settings</summary>
+              <div class="p-2">
+                <input type="text" id="searchInput" class="form-control mb-2" placeholder="Search the site" onkeyup="searchPages()" />
+                <select id="themeSelector" class="form-select form-select-sm mb-2 theme-selector" aria-label="Choose Theme">
+                  <option value="blue">Blue</option>
+                  <option value="green">Green</option>
+                  <option value="grey">Grey</option>
+                  <option value="pink">Pink</option>
+                  <option value="purple">Purple</option>
+                  <option value="red">Red</option>
+                  <option value="yellow">Yellow</option>
+                  <option value="calm">Light Grey</option>
+                  <option value="contrast">High Contrast</option>
+                </select>
+                <div class="btn-group btn-group-sm w-100 mb-2" role="group">
+                  <button onclick="setTextSize('scale-small')" class="btn btn-outline-secondary">A-</button>
+                  <button onclick="setTextSize('scale-medium')" class="btn btn-outline-secondary">A</button>
+                  <button onclick="setTextSize('scale-large')" class="btn btn-outline-secondary">A+</button>
+                </div>
+                <button class="btn btn-sm btn-outline-primary w-100 toggle-dark">Dark Mode</button>
+              </div>
+            </details>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ======================================== -->
+    <!-- ====== TOOLBAR: SEARCH + SETTINGS ====== -->
+    <!-- ======================================== -->
+
+    <div class="container mt-3 d-none d-sm-block">
+      <div class="row align-items-center g-2">
+        <!-- Site Search -->
+        <div class="col">
+          <input type="text" id="searchInput" class="form-control" placeholder="Search the site" onkeyup="searchPages()" />
+        </div>
+        <!-- Theme & Accessibility Controls -->
+        <div class="col-auto">
+          <div class="control-toolbar d-flex flex-wrap gap-2 p-2 rounded">
+            <!-- Theme Selector -->
+            <select id="themeSelector" class="form-select form-select-sm w-auto theme-selector" aria-label="Choose Theme">
+              <option value="blue">Blue</option>
+              <option value="green">Green</option>
+              <option value="grey">Grey</option>
+              <option value="pink">Pink</option>
+              <option value="purple">Purple</option>
+              <option value="red">Red</option>
+              <option value="yellow">Yellow</option>
+              <option value="calm">Light Grey</option>
+              <option value="contrast">High Contrast</option>
+            </select>
+            <!-- Text Size Buttons -->
+            <div class="btn-group btn-group-sm" role="group" aria-label="Text Size">
+              <button onclick="setTextSize('scale-small')" class="btn btn-outline-secondary">A-</button>
+              <button onclick="setTextSize('scale-medium')" class="btn btn-outline-secondary">A</button>
+              <button onclick="setTextSize('scale-large')" class="btn btn-outline-secondary">A+</button>
+              <button onclick="setTextSize('scale-xlarge')" class="btn btn-outline-secondary">A++</button>
+            </div>
+            <!-- Dark Mode Toggle -->
+            <button class="btn btn-sm btn-outline-primary toggle-dark">Dark Mode</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- =============================== -->
+  <!-- ====== HOME PAGE SECTION ====== -->
+  <!-- =============================== -->
+  <div id="home" class="page active">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar Gradient Title -->
+        <div class="col-md-4 gradient-col d-flex align-items-center justify-content-center">
+          <h3 class="gradient-text">Friends of Clarence Park</h3>
+        </div>
+        <!-- Main Welcome Text -->
+        <div class="col-md-8">
+          <section class="homepage-intro theme-green">
+            <h1>Welcome to Friends of Clarence Park</h1>
+            <p>
+              Clarence Park has long been a place for gathering, growing, and gentle wandering. This site is a space for sharing stories, celebrating local heritage, and supporting the people who care for the park and its future.
+            </p>
+            <p>
+              Here you'll find updates from the Friends group, examples of community projects, and resources for anyone who wants to get involved.
+            </p>
+            <p>
+              Whether you're here to explore, contribute, or simply enjoy the view, we're glad you've stopped by.
+            </p>
+          </section>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md">
+          <div class="text-center">
+            <img src="https://assets.codepen.io/8889025/FOCP2.jpeg" class="img-fluid rounded shadow-sm" style="max-width: 100%; height: auto;">
+            <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+            <small class="d-block mt-2">Rainbow over the bandstand</small>
+            <!--* Replace the # with optional text text that will appear under the image *-->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================= -->
+  <!-- ====== About Us SECTION ====== -->
+  <!-- ================================= -->
+  <div id="AU" class="page">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar Gradient Title -->
+        <div class="col-md-4 gradient-col d-flex align-items-center justify-content-center">
+          <h3 class="gradient-text">About Us</h3>
+        </div>
+        <!-- Main Description -->
+        <div class="col-md-8">
+          <section class="about-us theme-green">
+            <h1>About Friends of Clarence Park</h1>
+
+            <p>
+              Clarence Park has always been more than just green space—it's a place where people meet, memories are made, and nature quietly thrives in the heart of Bury. The <strong>Friends of Clarence Park</strong> is a community group made up of local residents, park users, and volunteers who care deeply about this shared space.
+            </p>
+
+            <p>
+              We're a constituted organisation with a dedicated committee, working together to improve the park and its facilities for everyone. From restoring pathways to planting wildflowers, our plans aim to make Clarence Park even more welcoming, accessible, and full of life.
+            </p>
+
+            <p>
+              As a formal group, we're able to apply for funding to support our projects—whether it's upgrading play areas, hosting community events, or enhancing biodiversity. But we can't do it alone.
+            </p>
+
+            <div class="volunteer-callout">
+              <h2>🌼 Want to Get Involved?</h2>
+              <p>
+                If you love Clarence Park and can spare a few hours now and then, we'd be thrilled to have your help. Whether you're a keen gardener, a history buff, or just someone who enjoys a good cuppa and a chat, there's a place for you here.
+              </p>
+              <aside class="about-sidebar">
+                <h3>📍 Based in Bury, Greater Manchester</h3>
+                <p>
+                  Our group welcomes all park users—from dog walkers and joggers to families and nature lovers. Clarence Park belongs to everyone.
+                </p>
+              </aside>
+            </div>
+          </section>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================== -->
+  <!-- ====== News & Updates SECTION ====== -->
+  <!-- =============================== -->
+  <div id="NaU" class="page">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar Gradient Title -->
+        <div class="col-md-4 gradient-col d-flex align-items-center justify-content-center">
+          <h3 class="gradient-text">News & Updates</h3>
+        </div>
+        <div class="col-md-8">
+          <section class="news-updates theme-green">
+            <h1>News & Updates</h1>
+            <p>Here’s what’s happening in and around Clarence Park—from committee updates to community events and everything in between.</p>
+
+            <button class="btn btn-primary w-100 text-start mb-2" onclick="toggleSection('NAU1')">🌼 Spring Clean Success!</button>
+            <!--* Replace # with button label, ID with the section's unique ID *-->
+            <div id="NAU1" style="display:none;" class="mt-3">
+              <!--* Replace ID with the section's unique ID *-->
+              <h2>🌼 Spring Clean Success!</h2>
+              <p><strong>Date:</strong> 13 April 2025</p>
+              <p>Thank you to everyone who joined our spring clean! We filled over 20 bags of litter, planted new bulbs near the bandstand, and shared a few well-earned biscuits in the sunshine. Special thanks to Bury Council for providing equipment.</p>
+            </div>
+
+            <button class="btn btn-primary w-100 text-start mb-2" onclick="toggleSection('NAU2')">🎉 Summer Picnic Planned</button>
+            <!--* Replace # with button label, ID with the section's unique ID *-->
+            <div id="NAU2" style="display:none;" class="mt-3">
+              <!--* Replace ID with the section's unique ID *-->
+              <h2>🎉 Summer Picnic Planned</h2>
+              <p><strong>Date:</strong> 22 May 2025</p>
+              <p>Save the date! Our annual community picnic will take place on Sunday 16 June. Expect music, games, and plenty of cake. Volunteers needed for setup—get in touch if you’d like to help!</p>
+            </div>
+
+            <button class="btn btn-primary w-100 text-start mb-2" onclick="toggleSection('NAU3')">📝 AGM Highlights</button>
+            <!--* Replace # with button label, ID with the section's unique ID *-->
+            <div id="NAU3" style="display:none;" class="mt-3">
+              <!--* Replace ID with the section's unique ID *-->
+              <h2>📝 AGM Highlights</h2>
+              <p><strong>Date:</strong> 5 March 2025</p>
+              <p>Our Annual General Meeting covered exciting plans for the play area, funding applications, and new committee roles. Minutes are available on request—email us if you’d like a copy.</p>
+            </div>
+
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ====================================== -->
+  <!-- ====== Events SECTION ====== -->
+  <!-- ====================================== -->
+  <div id="E" class="page">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar Gradient -->
+        <div class="col-md-4 gradient-col d-flex align-items-center justify-content-center">
+          <h3 class="gradient-text">Evsnts</h3>
+        </div>
+        <!-- Catalogue Description -->
+        <div class="col-md-8">
+          <section class="events-page theme-green">
+            <h1>Upcoming Events at Clarence Park</h1>
+            <p>From picnics and planting days to heritage walks and wellbeing workshops, there’s always something happening in the park. Everyone’s welcome—whether you’re a regular volunteer or just popping by for a cuppa and a chat.</p>
+
+            <button class="btn btn-primary w-100 text-start mb-2" onclick="toggleSection('E1')">🌼 Autumn Planting Day<< /button>
+                <!--* Replace # with button label, ID with the section's unique ID *-->
+                <div id="E1" style="display:none;" class="mt-3">
+                  <!--* Replace ID with the section's unique ID *-->
+                  <h2>🌼 Autumn Planting Day</h2>
+                  <p><strong>Date:</strong> Saturday 21 September 2025</p>
+                  <p><strong>Time:</strong> 10:00am – 1:00pm</p>
+                  <p><strong>Location:</strong> Near the bandstand</p>
+                  <p>Join us for a morning of bulb planting and gentle tidying as we prepare the park for the cooler months. Tools and gloves provided. Tea and biscuits guaranteed.</p>
+                </div>
+
+                <button class="btn btn-primary w-100 text-start mb-2" onclick="toggleSection('E2')">🎶 Community Picnic & Music</button>
+                <!--* Replace # with button label, ID with the section's unique ID *-->
+                <div id="E2" style="display:none;" class="mt-3">
+                  <!--* Replace ID with the section's unique ID *-->
+                  <h2>🎶 Community Picnic & Music</h2>
+                  <p><strong>Date:</strong> Sunday 6 October 2025</p>
+                  <p><strong>Time:</strong> 12:00pm – 3:00pm</p>
+                  <p><strong>Location:</strong> Main lawn</p>
+                  <p>Bring a blanket, some lunch, and your favourite tunes. We’ll have live acoustic sets, games for all ages, and a bake sale to support future park projects.</p>
+                </div>
+
+                <button class="btn btn-primary w-100 text-start mb-2" onclick="toggleSection('E3')">🕯️ Heritage Lantern Walk</button>
+                <!--* Replace # with button label, ID with the section's unique ID *-->
+                <div id="E3" style="display:none;" class="mt-3">
+                  <!--* Replace ID with the section's unique ID *-->
+                  <h2>🕯️ Heritage Lantern Walk</h2>
+                  <p><strong>Date:</strong> Friday 25 October 2025</p>
+                  <p><strong>Time:</strong> 6:30pm – 8:00pm</p>
+                  <p><strong>Location:</strong> Meet at the Clarence Park gates</p>
+                  <p>Explore the park’s hidden stories with a gentle evening walk lit by lanterns. We’ll share tales from the archives and finish with hot chocolate under the trees.</p>
+                </div>
+
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================================================== -->
+  <!-- ====== Groups SECTION ====== -->
+  <!-- ==================================================== -->
+  <div id="G" class="page">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar Gradient -->
+        <div class="col-md-4 gradient-col d-flex align-items-center justify-content-center">
+          <h3 class="gradient-text">Groups</h3>
+        </div>
+        <!-- Section Description -->
+        <div class="col-md-8">
+          <section class="groups-intro theme-green">
+            <h1>Groups in Clarence Park</h1>
+            <p>
+              Clarence Park is home to more than trees and pathways—it's a living space shared by a vibrant mix of local groups, clubs, and communities. From early morning runners to quiet anglers, cycling advocates to wellbeing walkers, the park welcomes everyone.
+            </p>
+            <p>
+              This page celebrates the people who make the park their own. Whether you're looking to join a group, support a cause, or simply learn more about what’s happening beyond the bandstand, you’ll find a snapshot of the many ways Clarence Park is used and loved.
+            </p>
+            <p>
+              If your group meets in the park and would like to be featured here, we’d love to hear from you.
+            </p>
+          </section>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md">
+          <!--* How to use this code
+
+1. Each tab set must have unique IDs, for this use 01 - 99 replacing as required.
+2. Each tab in a set must also have a unique ID, for this use the set number and a letter a - z
+
+*-->
+
+          <!-- Tabs navigation -->
+
+          <ul class="nav nav-tabs" id="tabNav01" role="tablist">
+            <!-- Tab button 1 -->
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="tabBtn01a" data-bs-toggle="tab" data-bs-target="#tabPane01a" type="button" role="tab" aria-controls="tabPane01a" aria-selected="true">Park Run</button>
+            </li>
+
+            <!-- Tab button 2 -->
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tabBtn01b" data-bs-toggle="tab" data-bs-target="#tabPane01b" type="button" role="tab" aria-controls="tabPane01b" aria-selected="false">Bury Wheels for All</button>
+            </li>
+
+            <!-- Tab button 3 -->
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tabBtn01c" data-bs-toggle="tab" data-bs-target="#tabPane01c" type="button" role="tab" aria-controls="tabPane01c" aria-selected="false">The Green</button>
+            </li>
+
+            <!-- Tab button 4 -->
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tabBtn01d" data-bs-toggle="tab" data-bs-target="#tabPane01d" type="button" role="tab" aria-controls="tabPane01d" aria-selected="false">Ramsbottom Angling Association</button>
+            </li>
+
+            <!-- Tab button 5 -->
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tabBtn01e" data-bs-toggle="tab" data-bs-target="#tabPane01e" type="button" role="tab" aria-controls="tabPane01e" aria-selected="false">Jubilee Centre</button>
+            </li>
+
+          </ul>
+
+          <!-- Tabs content -->
+
+          <div class="tab-content" id="tabContent01">
+            <!-- Content pane 1 -->
+
+            <div class="tab-pane fade show active" id="tabPane01a" role="tabpanel" aria-labelledby="tabBtn01a">
+              <section class="group-card parkrun theme-yellow" aria-labelledby="parkrun-title">
+                <h2 id="parkrun-title">🏃 Clarence parkrun</h2>
+                <p>
+                  Every Saturday at 9am, Clarence Park comes alive with the energy of parkrun—a free, friendly 5k event open to everyone. Whether you walk, jog, run, volunteer, or simply cheer from the sidelines, parkrun is about community, movement, and joy.
+                </p>
+                <p>
+                  Organised entirely by volunteers, Clarence parkrun welcomes all ages and abilities. The course winds through the park’s paths and greenery, offering a scenic start to the weekend. And after the finish line? Join fellow parkrunners for a well-earned brew at The Friends Hut.
+                </p>
+                <ul class="group-details">
+                  <li><strong>📍 Location:</strong> Clarence Park, Walmersley Road, Bury, BL9 6NG</li>
+                  <li><strong>🕘 Time:</strong> Every Saturday at 9:00am</li>
+                  <li><strong>💬 Post-run social:</strong> Tea and chat at The Friends Hut</li>
+                  <li><strong>🆓 Cost:</strong> Free! Just register once and bring your barcode</li>
+                  <li><strong>🤝 Volunteers:</strong> Always welcome</li>
+                </ul>
+                <p>
+                  Whether you're chasing a personal best or just enjoying the fresh air, Clarence parkrun is a celebration of movement and togetherness.
+                  <a href="https://www.parkrun.org.uk/clarence/" target="_blank" rel="noopener">Find out more and register</a>.
+                </p>
+              </section>
+            </div>
+
+            <!-- Content pane 2 -->
+
+            <div class="tab-pane fade" id="tabPane01b" role="tabpanel" aria-labelledby="tabBtn01b">
+              <section class="group-card wheels-for-all theme-blue" aria-labelledby="wfa-title">
+                <h2 id="wfa-title">🚲 Bury Wheels for All</h2>
+                <p>
+                  Bury Wheels for All offers inclusive cycling sessions for children, adults, and families—especially those with additional needs. Based in Clarence Park, the programme uses a wide range of adapted bikes, trikes, and tag-alongs to make cycling safe, sociable, and fun for everyone.
+                </p>
+                <p>
+                  Sessions are supported by trained staff and volunteers, with open paths and a welcoming atmosphere. Whether you're riding for wellbeing, confidence, or pure joy, Wheels for All helps make cycling accessible to all.
+                </p>
+                <ul class="group-details">
+                  <li><strong>📍 Location:</strong> Clarence Park, Walmersley Road, Bury, BL9 6NG</li>
+                  <li><strong>🕘 Session Times:</strong> Thursdays 10:00–13:00 (last entry 12:00)</li>
+                  <li><strong>💷 Cost:</strong> £4 per rider (carers go free) – cash only</li>
+                  <li><strong>📧 Booking:</strong> Email <a href="mailto:g.wolstencroft@bury.gov.uk">g.wolstencroft@bury.gov.uk</a> for private sessions</li>
+                  <li><strong>🧢 Equipment:</strong> Bikes and helmets provided</li>
+                </ul>
+                <p>
+                  Bury Wheels for All is part of the national <a href="https://wheelsforall.org.uk/locations/bury-wheels-for-all" target="_blank" rel="noopener">Wheels for All</a> network—bringing the joy of cycling to every ability.
+                </p>
+              </section>
+            </div>
+
+            <!-- Content pane 3 -->
+
+            <div class="tab-pane fade" id="tabPane01c" role="tabpanel" aria-labelledby="tabBtn01c">
+              <section class="group-card green-cafe theme-green" aria-labelledby="green-cafe-title">
+                <h2 id="green-cafe-title">☕ The Green Community Café</h2>
+                <p>
+                  Nestled in the Clarence Park Bowling Pavilion, The Green Café is more than a place to grab a brew—it’s a welcoming hub for all ages. Run by volunteers and supported by the Ageing in Place project, the café offers affordable food, friendly faces, and a space to connect.
+                </p>
+                <p>
+                  From bingo and baby groups to music sessions and seasonal events, The Green is a place where community comes alive. It’s dog-friendly, fully accessible, and home to a sensory garden and changing facilities for adults and babies.
+                </p>
+                <ul class="group-details">
+                  <li><strong>📍 Location:</strong> Clarence Park Bowling Pavilion, Walmersley Road, Bury, BL9 5DH</li>
+                  <li><strong>🕒 Opening Times:</strong>
+                    <ul>
+                      <li>Mon–Thu: 9:30am–2:30pm</li>
+                      <li>Fri: 11:00am–1:00pm (drinks only)</li>
+                      <li>Sat: 8:30am–1:30pm</li>
+                      <li>Sun & Bank Holidays: Closed</li>
+                    </ul>
+                  </li>
+                  <li><strong>🍰 Highlights:</strong> Homemade cakes, burger bar, loyalty card (buy 9 hot drinks, get 1 free)</li>
+                  <li><strong>🎉 Events:</strong> Bingo, Thursday Lunch Club, Breakfast with Santa, and more</li>
+                  <li><strong>📧 Contact:</strong> <a href="mailto:info@personasupport.org">info@personasupport.org</a></li>
+                </ul>
+                <p>
+                  Whether you're popping in for a cuppa or joining a community event, The Green Café is here to make you feel at home.
+                  <a href="https://www.personasupport.org/our-services/the-green-community-cafe/" target="_blank" rel="noopener">See what’s on and explore the menu</a>.
+                </p>
+              </section>
+            </div>
+
+            <!-- Content pane 4 -->
+
+            <div class="tab-pane fade" id="tabPane01d" role="tabpanel" aria-labelledby="tabBtn01d">
+              <section class="group-card angling theme-aqua" aria-labelledby="angling-title">
+                <h2 id="angling-title">🎣 Ramsbottom Angling Association</h2>
+                <p>
+                  Established in 1892, Ramsbottom Angling Association is one of the oldest and most welcoming fishing clubs in the region. With over 500 members—including children, seniors, and concessions—the club is rooted in community, inclusion, and a shared love of coarse fishing.
+                </p>
+                <p>
+                  At Clarence Park Lido, the association offers accessible fishing pegs and a range of sessions for all skill levels. From children’s coaching to wellbeing mornings, there’s always a line to cast and a story to share.
+                </p>
+                <ul class="group-details">
+                  <li><strong>📍 Location:</strong> Clarence Park Lido, Bury</li>
+                  <li><strong>🧒 Coaching:</strong> Children’s sessions on Mondays & Thursdays (summer only)</li>
+                  <li><strong>🌿 Wellbeing Group:</strong> Thursdays, 10am–12pm</li>
+                  <li><strong>♿ Access:</strong> Disabled-friendly pegs for 6+ anglers</li>
+                  <li><strong>📅 Membership:</strong> Runs March–February; open to all ages</li>
+                  <li><strong>📧 Info:</strong> Visit <a href="https://ramsbottomanglers.co.uk/about-us/" target="_blank" rel="noopener">ramsbottomanglers.co.uk</a> or find them on Facebook</li>
+                </ul>
+                <p>
+                  Whether you're a seasoned angler or just curious to try, Ramsbottom Angling Association offers a peaceful, welcoming way to connect with nature and community.
+                </p>
+              </section>
+            </div>
+
+            <!-- Content pane 5 -->
+
+            <div class="tab-pane fade" id="tabPane01e" role="tabpanel" aria-labelledby="tabBtn01e">
+              <section class="group-card jubilee-centre theme-rose" aria-labelledby="jubilee-title">
+                <h2 id="jubilee-title">☕ The Jubilee Centre & Café</h2>
+                <p>
+                  Run by Age UK Bury, The Jubilee Centre is a lively community hub offering over 30 activities each week for people aged 50 and over. From yoga and line dancing to quizzes and knit & natter, it’s a place to stay active, make friends, and feel connected.
+                </p>
+                <p>
+                  The on-site café serves hot meals, snacks, cakes, and drinks—perfect for a catch-up after a class or a peaceful moment by the lido. With friendly staff, accessible facilities, and a packed weekly timetable, the Jubilee Centre is a cornerstone of wellbeing in Clarence Park.
+                </p>
+                <ul class="group-details">
+                  <li><strong>📍 Location:</strong> Mosley Avenue, Bury, BL9 6PQ (next to Clarence Park Lido)</li>
+                  <li><strong>🕒 Opening Times:</strong>
+                    <ul>
+                      <li>Mon–Fri: 9:30am–4:00pm</li>
+                      <li>Sat: 10:00am–4:00pm</li>
+                      <li>Sun & Bank Holidays: Closed</li>
+                    </ul>
+                  </li>
+                  <li><strong>🎯 Activities:</strong> Yoga, Tai Chi, Chair-based exercise, Bingo, Lunch Club, Short Mat Bowling</li>
+                  <li><strong>🍰 Café:</strong> Hot & cold food, homemade cakes, drinks</li>
+                  <li><strong>📧 Contact:</strong> <a href="mailto:admin@ageukbury.org.uk">admin@ageukbury.org.uk</a></li>
+                </ul>
+                <p>
+                  Whether you're joining a class or just stopping by for a brew, The Jubilee Centre is here to support, uplift, and connect the community.
+                  <a href="https://www.ageuk.org.uk/bury/our-services/jubilee-centre/" target="_blank" rel="noopener">Explore the full timetable and services</a>.
+                </p>
+              </section>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ======================================================== -->
+  <!-- ====== Park Opening SECTION ====== -->
+  <!-- ======================================================== -->
+  <div id="PO" class="page">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar Gradient -->
+        <div class="col-md-4 gradient-col d-flex align-items-center justify-content-center">
+          <h3 class="gradient-text">Park Opening</h3>
+        </div>
+        <!-- Page Description -->
+        <div class="col-md-8">
+          <section class="article-intro theme-sepia" aria-labelledby="opening-intro-title">
+            <header>
+              <h2 id="opening-intro-title">🎉 A Royal Day in Bury: The Opening of Clarence Park</h2>
+            </header>
+
+            <p>On a summer’s day in July 1888, the town of Bury welcomed Prince Albert Victor with flags, music, and heartfelt pride. His visit marked the official opening of two new recreation grounds—Walmersley Road and Rochdale Road—offering green space, fresh air, and joyful play to the people of the borough for generations to come.</p>
+
+            <p>This article, originally printed in <em>The Manchester Courier and Lancashire General Advertiser</em>, captures the excitement, ceremony, and civic spirit of that day. From velvet-bound addresses to cricket pitches and croquet lawns, it tells the story of how Clarence Park came to life—through community ambition, generous gifts, and royal recognition.</p>
+
+            <p>Transcribed and lightly reformatted for clarity, the piece offers a vivid glimpse into Bury’s Victorian past, where public parks were more than leisure—they were symbols of progress, wellbeing, and shared pride.</p>
+          </section>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md">
+          <section class="historic-article theme-sepia" aria-labelledby="article-title">
+            <header>
+              <h1 id="article-title">🏞 The Opening of Bury Recreational Grounds</h1>
+              <p><em>Original article printed in <strong>The Manchester Courier and Lancashire General Advertiser</strong>, Monday July 23, 1888.</em></p>
+              <p><strong>Transcribed by:</strong> Bronwyn Driver<br>
+                <strong>Proofread by:</strong> Dawn Day
+              </p>
+              <p>Some words and names may have been inaccurately spelled due to the quality of the source material. The formatting has also been amended to make the article easier to read.</p>
+
+            </header>
+
+            <article>
+              <h2>👑 Prince Albert Victor at Bury</h2>
+              <h3>Opening of Recreation Grounds</h3>
+
+              <p>Lancashire has been highly favoured in the matter of Royal visits of late. Her Majesty the Queen about two years ago honoured Liverpool with her presence on the occasion of the opening of the exhibition there.</p>
+
+              <p>Last year the Prince and Princess of Wales paid a visit extending over two days to Manchester and Salford when the great Jubilee Exhibition was opened at Old Trafford. Their Royal Highnesses honoured Blackburn with a visit early in the present year, the occasion being the laying of the foundation stone of the new Technical Institute.</p>
+
+              <p>The Princess Louise graced Liverpool with her presence last year, when she opened the second Exhibition that was held there.</p>
+
+              <p>Then it will be remembered that the Duke of Cambridge visited Manchester in September, for the object primarily of opening the new headquarters of the 2nd Manchester Ride Volunteers. His Royal Highness quite recently visited Liverpool and Southport, inspecting the defences at the former place and reviewing the Lancashire Hussars at the latter.</p>
+
+              <p>Other Royal visits have been paid to places in the adjoining counties which need not be particularised here. It cannot be denied that royalty has manifested a lively interest in all that affects the physical and intellectual welfare of the people. Hardly a week passes in which the heir apparent does not perform some important function; and his eldest son, Prince Albert Victor of Wales, seems bent on following the noble example thus set him.</p>
+
+              <p>On Friday he inaugurated a new sea wall and promenade at Bridlington, and on Saturday he opened two new recreation grounds at Bury. The inhabitants of Bury now possess four admirable places of outdoor resort and recreation, and they may well feel proud of the fact. They may also be congratulated upon the honour conferred upon the town by the visit of Prince Albert Victor, and the success which attended the inaugural proceedings.</p>
+
+              <p>So far back as 1882 the question of providing a public park for the borough was actively canvassed, but nothing practical came of the movement which was then started.</p>
+
+              <p>The question again came to the front in 1883, when Mr. Henry Whitehead, of Elton, presented a plot of land to the town for the purpose of a recreation ground. Then the corporation actively took the matter up, and after considerable deliberations a deputation was appointed to wait upon Lord Derby, with the view of asking him to grant the necessary land – he being an owner of land in the borough to a large extent.</p>
+
+              <p>In April, 1883, Lord Derby wrote to the effect that as neither he nor his trustees could give land for a park he proposed to subscribe £10,000, that sum be deducted from the price of the land which might be utilised for the purpose. This offer was accepted, but afterwards the price to be paid for the land could not be agreed upon and the negotiations fell through.</p>
+
+              <p>Eventually Lord Derby consented to the £10,000 he had offered being devoted to the purchase and laying out of recreation grounds for the people. A subscription list was opened, and by February 1885, the total sum received or promised was £17,000, including £1,000 from Mr. T. O. Openshaw, and similar amounts from Mr. R. N. Phillips and the Bury Co-operative Society.</p>
+
+              <p>Plots of land in Rochdale Road and Walmersley Road were secured in due course. In May, 1887, a letter was received by the committee from Mr. Openshaw offering to present a piece of land adjoining the Rochdale Road ground, and containing upwards of five acres, to be added to the purchased land, and he generously undertook to bear the expenses of laying out the ground, and also the cost of furnishing a gymnasium. Mr. Openshaw has further given a sum of £5,000, the interest of which is to be devoted to the maintenance of the ground.</p>
+
+              <h3>Arrival of the Prince</h3>
+
+              <p>The grounds being ready for opening it was naturally felt by the authorities that some distinguished person should be invited to perform the inaugural ceremony. It was decided to ask Prince Albert Victor of Wales to visit the borough for the purpose, and his Royal Highness, after a little hesitation, consented to do so.</p>
+
+              <p>Then the preparations for the important and interesting event began and were carried out in real earnest. The inhabitants determined to make the day as far as possible a memorable one. All classes combined in the laudable enterprise, and everybody looked forward to the visit of the Prince with the most lively interest.</p>
+
+              <p>The results of this loyal enthusiasm were seen in the festive appearance of the streets on Saturday. They made a brave show of flags, bright streamers, Venetian masts, triumphal arches, shields and other decorative features. Tokens of rejoicings in fact, met the eye at every turn.</p>
+
+              <p>The fronts of houses on the line of route marked out for the procession to pass through were for the most part set off either with festoons of evergreens and artificial flowers, shields, mottoes, or crimson cloth, and strips of bunting of various bright colours.</p>
+
+              <p>The principal streets were thronged by 10 o’clock, and the crowds were gradually increased by people coming in from various places in the neighbourhood. Railway trains brought in heavy contingents, and as noon approached the thoroughfares in the centre of the town became almost impassable.</p>
+
+              <p>At 12 o’clock the Mayor (Alderman Horridge), who wore his official robes, received his invited guests in the reception room of the town hall. Amongst these we noticed the High Sheriff (Mr. Oliver Heywood), Alderman Sir J. J. Harwood (Mayor of Manchester), the Right Rev. Dr. Vaughan (Roman Catholic Bishop of Salford), the Under-sheriff (Mr. Walter Gregg), the Right Hon. Sir Henry James, Q.C., M.P., Mr. I. Hoyle, M.P, Colonel O. O. Walker, Colonel F. L. Edridge, Lieutenant-colonel Moorsom, Colonel C. Walker, the Mayors of Rochdale, Heywood, Middleton, and Bolton. Colonel Hutchinson, Major R. G. Randall, Mr J. Kenyon, Mr. W. Talbot (Deputy Town-clerk of Manchester), Mr. G. Lawson, Mr. R. Walker, Mr. J. Whitehead, Mr. A. Bealy, Mr. T. Aitken, Mr. T. Stater, Mr. E. G. Wrigley, and Mr. J. W. Kenyon.</p>
+
+              <p>At a quarter past 12 the Mayor and his guests entered open carriages, which were drawn up in front of the Town Hall, and drove to Knowsley Street Station, being proceeded and followed by mounted police officers.</p>
+
+              <p>Outside the station an escort of the 9th Lancers from Manchester was drawn up, and a strong detachment of the Duke of Lancaster’s Own Yeomanry, with the band of the regiment, was also present. A guard of honour furnished by the 1st Volunteer Battalion of Lancashire Fusiliers, under Major Hutchinson, was drawn up on the platform, which was laid with crimson carpet.</p>
+
+              <p>The station was tastefully decorated with flags and gay streamers. The Mayor, the Town Clerk (Mr. S. Thorp), the High Sheriff, Sir H. James, Mr. Hoyle, and members of the Reception Committee took up a position near the centre of the platform where it was arranged that the saloon in which the Prince travelled should stop.</p>
+
+              <p>His Royal Highness came by the ordinary train from York due at Bury at 12.25. When the train arrived the guard presented arms, the band of the regiment played the National Anthem, and loud cheers were given by those on or near the platform.</p>
+
+              <p>Major Miles was in attendance upon the Prince, and Mr. G. J. Armytage (chairman of the Lancashire and Yorkshire Railway Company) and Mr. J. Maddock (passenger superintendent) were in charge of the train. Mr. W. Thorley (general manager of the company) received his Royal Highness who, on alighting, was introduced to the Mayor by Major Miles.</p>
+
+              <h3>Presentation of Addresses</h3>
+
+              <p>The Mayor having introduced several of the principal gentlemen on the platform to the distinguished visitor, the Town Clerk read the following address which was then presented to the Prince by the Mayor:</p>
+
+              <blockquote class="royal-address">
+                <p>To His Royal Highness Prince Albert Victor of Wales, K.G.</p>
+                <p>May it please your Royal Highness, we, the Mayor, aldermen, and burgesses of the borough of Bury, in the County Palatine of Lancaster, desire to express to your Royal Highness our deep sense of the honour you have conferred upon us by this visit, and we offer to your Royal Highness a most loyal, sincere, and hearty welcome.</p>
+                <p>Every inhabitant of the borough regards the consent of your Royal Highness to open two of their recreation grounds as a proof of the great interest taken by you in all that concerns the welfare and physical development of the people.</p>
+                <p>We rejoice to learn from such acts that your Royal Highness is following in the steps of the late revered Prince Consort and of your illustrious father the Prince of Wales in being ever ready to take a leading part in assisting any undertaking which has for its object the elevation of the people and the advancement of the nation generally.</p>
+                <p>We desire to assure your Royal Highness of the loyal devotion of the inhabitants of Bury to her Majesty the Queen and the Royal Family, and especially to express the hope that a long and happy future may be given to your Royal Highness, a future which we believe will afford many proof of your Royal Highness’s desire to aid in securing the prosperity of a loyal and grateful people.</p>
+              </blockquote>
+
+              <p>The address was prepared by Messrs. George Faulkner and Sons, of Deansgate, Manchester. It was engrossed and illuminated on vellum, after the manner of 16th century ornamentation. The style of the production of this period lends itself readily to the most artistic adornment of manuscript work, whilst examples of needlework about this time are fine in quality and design.</p>
+
+              <p>Advantage was taken of this circumstance to provide for the address, which was in book form, a cover which was absolutely unique. The cover was of crimson plush velvet, beautifully worked in crewel silks and gold, with the centre filled in with a raised gilt monogram in metal.</p>
+
+              <p>The wording was set out in German text, with borders taken from designs of the period carefully adapted to the text. With this were incorporated various vignette drawings of buildings erected in the grounds. The arms of Bury were skilfully worked into the first initial letter. The whole was finished with watered silk linings to the beginning and ending leaves and a neat cloth-covered and gilt box in white contained the volume.</p>
+
+              <p>In relpy, his Royal Higness said:</p>
+              <blockquote class="royal-speech">
+                <p>I thank you very sincerely for the kind sentiments you have expressed and for the hearty welcome you have extended to me in the address that I have just heard read. It will give me much pleasure to convey to her Majesty and to my father the loyal and devoted feeling you have shown in regard to them.</p>
+                <p>It affords me the greatest satisfaction to know that my visit to this town has for its object the opening of two recreation grounds, which will, I am sure, be a means of increasing the welfare and comfort of its citizens. It will always be a source of deep gratification to me to assist in promoting works of this nature which add to the material happiness and prosperity of the community. <em>(Cheers.)</em></p>
+              </blockquote>
+
+              <p>The Mayor then introduced a deputation representing the local Masonic lodges, and the Prince shook hands with the members. Mr. T. H. Sleigh handed an address of welcome and congratulations to his Royal Highness. The concluding paragraph of the address ran as follows:</p>
+
+              <blockquote class="masonic-address">
+                <p>To this testimony of our affectionate attachment and loyalty to your Royal Highness we desire to add the expression of our profound respect and esteem, and we hail with satisfaction the happy omen that in the future occupant of the throne of these realms we shall possess a cordial supporter of our Ancient Order, and we pray that the great Architect of the Universe will bestow upon your Royal Highness His choicest blessings, and that you may long be spared to assist in ruling over our loyal and grateful brotherhood.</p>
+              </blockquote>
+              <p>The Prince replied in the following terms:-</p>
+
+              <blockquote class="royal-speech">
+                <p>Worshipful Masters and Brethren, – I thank you for your fraternal address of welcome, and for the kind terms in which, on behalf of the lodges belonging to your borough, you have referred to me, and to the fact of my having served in the important and responsible office of Grand Senior Warden during the Jubilee year.</p>
+                <p>I shall have much pleasure in conveying to my father your cordial expressions of attachment towards him as our Most Worshipful Grand Master. He is, as I trust you are all aware, deeply interested in all matters relating to Freemasonry, and I cannot doubt that he will experience sincere gratification in learning how highly you appreciate his efforts to address the welfare of the craft.</p>
+              </blockquote>
+
+              <p>His Royal Highness was then conducted to the carriage which was in waiting for him outside the station. It was drawn by four bays, with postilions. The Mayor and Major Miles rode in the same carriage. Heading the procession were a number of mounted police.</p>
+
+              <p>Then followed the Duke of Lancaster’s Own Yeomanry Cavalry and band; the members of the Reception Committee; next the Royal carriage with escort of Lancers, and immediately behind this came the High Sheriff’s splendid carriage. The coachman and footman were in full livery and made quite an imposing display. The High Sheriff wore the bright uniform of a deputy-lieutenant and looked exceedingly well, accompanied by the Under-sheriff.</p>
+
+              <p>Then followed the invited guests and the members of the Corporation, the carriages numbering altogether close upon 40. The rear was brought up by another posse of mounted police.</p>
+
+              <p>A conspicuous figure was that of the Chief Constable (Lieut.-colonel Moorsom), who was mounted. Superintendent Henderson was also on horseback. Police were drafted from various parts of the county, the total strength of the force on duty in the borough during the day being upwards of 700.</p>
+
+              <p>The sun shone delightfully as the procession passed slowly through the town to the Walmersley Road Recreation Ground. The footpaths were crowded with sightseers, and every window and balcony was occupied, while not a few venturesome individuals looked down upon the pageant from the roofs of many houses. The Prince was cordially greeted all along the route.</p>
+
+              <h3>Walmersley Road Recreation Ground</h3>
+              <p>The ground is situated on the north side of the town and is seven acres in extent. It is enclosed by a wrought iron fence with a stone base. To the left of the main entrance is the caretaker’s lodge, a picturesque, half-timbered building. The ground is nicely laid out and looks very inviting.</p>
+
+              <p>At one end there is a playground specially set apart for girls, and at the other end there is a space exclusively for boys. There is a shelter at the entrance to each playground. A cricket ground and a lawn suitable for croquet or lawn tennis have been formed in the southwest corner of the ground. The place will undoubtedly prove of great benefit to the inhabitants.</p>
+
+              <p>At one point of the route on Saturday the local fire brigade had a triumphal arch constructed of fire engines, escapes and ladders, and it looked very effective.</p>
+
+              <p>On arriving at the entrance to the ground, His Royal Highness alighted with the Mayor and Major Miles, walked up to the gate which he pushed aside a little, and then formally declared the ground to be duly open.</p>
+
+              <h3>Rochdale Road Recreation Ground</h3>
+              <p>This is the largest and most picturesque recreation ground which the town possesses, and a very fine estate it is; being 12½ acres in extent. The principal entrance, as the name indicates, is from Rochdale Road.</p>
+
+              <p>The ground, which has been laid out with much taste, slopes gently from Rochdale Road in the direction of the River Roach. The bright green lawns are intersected by wide footpaths, and here and there are clusters of evergreens and flowering plants.</p>
+
+              <p>Just inside the main entrance is a handsome lodge erected for the caretaker. To the right of the principal walk running from the entrance is an extensive lawn, admirably adapted for croquet or lawn tennis. Close by is a roomy shelter for girls. The girls’ playground is covered with fine gravel rolled perfectly smooth, and it is furnished with swings, see-saws, and other recreative appliances. There is a similar playground for boys.</p>
+
+              <p>Passing on along the main walk the visitors’ attention is arrested by a picturesque mound, which has been planted with trees, and there is a rockery contiguous which is very pleasing to the eye. Walking under a rustic archway, the visitor comes to a large lawn which has been set apart for cricket.</p>
+
+              <p>In another part of the ground there is a fine bowling green, and an Italian garden, and there are drinking fountains and pavilions which, while being essentially useful, are decidedly ornamental in appearance.</p>
+
+              <p>The opening ceremony here was of a very interesting, not to say imposing, character. A grand stand had been erected at the lower side of the ground, affording accommodation for some 300 persons. This was filled with ladies and gentlemen long before the Prince arrived. The children from different schools in the town were massed on the lawn near the centre of the ground, and at three points among them were stationed bands of music.</p>
+
+              <p>While the procession was en route from the Walmersley ground to Rochdale Road a heavy shower of rain fell, but it did not seem to damp the loyal ardour of the people who lined the streets in the least. As for the thousands assembled on the ground they took the sprinkling very good humouredly. The majority had wisely provided themselves with umbrellas or waterproofs, and very little inconvenience was, therefore, suffered. The sun seemed to shine all the brighter after the rain, and the pleasure of the assembled thousands was proportionately enhanced, it may safely be assumed.</p>
+
+              <p>On arriving at the entrance the distinguished visitor was presented by the Mayoress with a gold key, beautifully finished and bearing an appropriate inscription. His Royal Highness then opened the gates amid loud cheers, and was conducted by the Mayor to a reserved space in the centre of the grand stand. Advancing to the front of the structure, the Prince said:</p>
+
+              <blockquote class="royal-speech">
+                <p>Ladies and Gentlemen, – I have much pleasure in declaring these grounds open.</p>
+              </blockquote>
+
+              <p>More cheering followed this interesting declaration. Then the children sang the National Anthem, the bands accompanying and Mr. J. C. Whitehead conducting.</p>
+
+              <p>The Mayor said that on the part of the Corporation he very thankfully accepted those grounds for the use of the people of Bury for all time to come. The people of Bury would remember that day the whole of their lives. He was sure they felt exceedingly thankful to his Royal Highness for coming to Bury, and he must be pleased with the way in which he had been received.</p>
+
+              <p><em>“God Bless the Prince of Wales”</em> was next sung, and at the close of this Mr. C. Brierley, a member of the committee charged with care of the grounds, expressed the pleasure it gave them to accept the care and management of the estate.</p>
+
+              <p>Then the <em>“Old Hundredth”</em> was sung with striking effect, and this was followed by cheers successively for <strong>“The Queen”</strong>, <strong>“The Prince and Princess of Wales, and the other Members of the Royal Family”</strong>, <strong>“Prince Albert Victor”</strong> and <strong>“Mr. T. O. Openshaw”</strong>.</p>
+
+              <p>His Royal Highness was thereupon escorted to the bowling green, and he sent a “jack” and a bowl across the greensward. The Mayor also sent a ball along the grass.</p>
+
+              <p>Proceeding to a lawn near the main entrance, the Prince was presented by Miss Maggie Brierley with a silver spade, having an ebony handle – the work of Messrs. Elkington and Co., of Manchester and London – and his Royal Highness planted two trees – one named <strong>“Albert”</strong> and the other <strong>“Victor”</strong>.</p>
+
+              <p>Then the Prince re-entered his carriage and was driven to the Town Hall, where he was entertained at luncheon with the invited guests of the Mayor.</p>
+
+              <p>At the close of the luncheon the illustrious visitor was escorted to Knowsley Street Station, and he left for York about five o’clock, amid the hearty plaudits of the gentlemen assembled on the platform. The principal streets were brilliantly illuminated in the evening.</p>
+            </article>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===================================== -->
+  <!-- ====== AI Enhanced Postcards SECTION ====== -->
+  <!-- ===================================== -->
+  <div id="AIPC" class="page">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar Gradient -->
+        <div class="col-md-4 gradient-col d-flex align-items-center justify-content-center">
+          <h3 class="gradient-text">AI Enhanced Postcards</h3>
+        </div>
+        <div class="col-md-8">
+          <section class="carousel-intro theme-sepia" aria-labelledby="carousel-title">
+            <header>
+              <h2 id="carousel-title">🖼️ Clarence Park Through the Lens of Time</h2>
+            </header>
+
+            <p>Step into a gallery where memory meets imagination. These postcards—originally sent with love, pride, and everyday wonder—have been gently restored and reimagined using AI enhancement, preserving their charm while revealing details lost to time.</p>
+
+            <p>Each image captures a moment in Clarence Park’s story: sunlit promenades, proud pavilions, and the quiet joy of community life. Whether sepia-toned or softly colourised, they invite you to wander through Bury’s past with fresh eyes.</p>
+
+            <p>Swipe through, pause where your heart lingers, and let the park speak to you—just as it did to generations before.</p>
+          </section>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md">
+
+          <div id="CID" class="carousel slide" data-bs-ride="carousel">
+            <!--* Replace CID with the carousel's unique ID *-->
+
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="1" aria-label="Slide 1"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="2" aria-label="Slide 2"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="3" aria-label="Slide 3"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="4" aria-label="Slide 4"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="5" aria-label="Slide 5"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="6" aria-label="Slide 6"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="7" aria-label="Slide 7"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="8" aria-label="Slide 8"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="9" aria-label="Slide 9"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="10" aria-label="Slide 10"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="11" aria-label="Slide 11"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="12" aria-label="Slide 12"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="13" aria-label="Slide 13"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <button type="button" data-bs-target="#CID" data-bs-slide-to="14" aria-label="Slide 14"></button>
+              <!--* Replace CID with the carousel's unique ID *-->
+
+              <!--* Add more rows for each slide you want to include updating the data-bs-slide-to and aria-label to a new number *-->
+
+            </div>
+
+            <!--* Slide1 with captions *-->
+
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://assets.codepen.io/8889025/FOCP3.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide2 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP4.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide3 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP5.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide1 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP6.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide2 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP7.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide3 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP8.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide1 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP9.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide2 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP10.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide3 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP11.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide1 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP12.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide2 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP13.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide3 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP14.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide1 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP15.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Slide2 with captions *-->
+
+              <div class="carousel-item">
+                <img src="https://assets.codepen.io/8889025/FOCP16.jpeg" class="d-block w-100" alt="##">
+                <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+
+                <div class="carousel-caption d-none d-md-block">
+                  <!--* Update with the text for the overlay *-->
+
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+
+              <!--* Controls *-->
+
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselWithCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselWithCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ================================= -->
+    <!-- ============ FOOTER ============= -->
+    <!-- ================================= -->
+    <footer class="text-center py-4 mt-5 border-top">
+      <p class="mb-0">&copy; 2025 Friends of Clarence Park.</p>
+      <small>For technical support, contact <a href="mailto:BronwynDriver@gmail.com">BronwynDriver@gmail.com</a>.</small>
+    </footer>
+    <!-- ================================= -->
+    <!-- ====== JAVASCRIPT INCLUDES ====== -->
+    <!-- ================================= -->
+    <!-- Bootstrap 5 Bundle (with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Script File -->
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+<!-- 
+===================================================================================================================================
+🗂Code Snippets
+===================================================================================================================================
+Snippet                        | Notes                                                                                            |
+-------------------------------|---------------------------------------------------------------------------------------------------
+Page                           | Used to add new pages to the microsite.                                                          |
+Modal                          | Used to add pop outs to a page                                                                   |
+New Page Button                | Used to create a button to navigate between pages of the microsite.                              |
+Pop-Up Button                  | Used to create a button that opens an external website in a new window.                          |
+Toggle Section Code            | Used to have a section expand to show content. Use several to create an accordion effect.        |
+Bootstrap Alert Banner         | Used to add messages to a page to emphasise a message                                            |
+Bootstrap Tabs                 | Used to create a series of tabs for content.                                                     |
+Bootstrap Breadcrumbs          | Used to create a breadcrumbe trail for users to navigate back through the microsite.             |
+Bootstrap Carousel             | Used to create image carousels like the announcements portlet in ESR                             |
+Responsive Image Embed         ! Used to add responsive images to the microsite                                                   |
+===================================================================================================================================
+Usage:
+Each snippet is commented out, copy the snippet and paste it in the body, then delete any examples of tags below that are at the left hand margin of the page.-->
+
+<!--* and *-->
+
+<!-- ============================================================================================================= -->
+<!-- ============================= Start of Page Snippet ========================================================= -->
+<!-- ============================================================================================================= -->
+
+<!-- ===================================== -->
+<!-- ============= PAGE NAME ============= -->
+<!-- ===================================== -->
+<!--*   
+                <div id="#" class="page">     <!--* Replace the # with the page ID *-->
+<!--* 
+                <div class="container">
+                <div class="row">
+                    <!-- Sidebar Gradient -->
+<!--*         
+                <div class="col-md-4 gradient-col d-flex align-items-center justify-content-center">
+                <h3 class="gradient-text">#</h3>     <!--* Replace the # with the page title *-->
+<!--*         
+                </div>
+                    <!-- Page Introduction -->
+<!--*         
+                <div class="col-md-8">
+          
+                    <!--* Put your page content here *-->
+<!--*          
+                </div>
+                </div>
+                    <!-- Page full width content -->
+<!--* 
+                <div class="row mt-4">
+                <div class="col-md">
+          
+                    <!--* Secondary full page section if required. Put your page content here *-->
+
+<!--* 
+                </div>
+                </div>
+                </div>
+                </div>
+
+*-->
+
+<!-- ============================================================================================================= -->
+<!-- ================ End of Page Snippet | Start of Modal Snippet =============================================== -->
+<!-- ============================================================================================================= -->
+
+<!--*
+                  <!-- Modal Name -->
+<!--*
+                <button class="btn btn-primary w-100 text-start mb-2" data-bs-toggle="modal" data-bs-target="#ID">#</button>   <!--* Replace the # with what you want the button on the page to say and ID with a unique ID for each Modal *-->
+<!--*
+                <div class="modal fade" id="ID" tabindex="-1" aria-labelledby="IDLabel" aria-hidden="true">  <!--* Replace both instances of ID with the unique ID from above *-->
+<!--*            
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header btn btn-primary">
+                <h5 class="modal-title mb-0" id="IDLabel">#</h5>   <!--* Replace the # with what you want the title of the Modal to say and ID with a unique ID for each Modal *-->
+<!--*
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="card-body">
+
+                  <!--* Put your Modal content here *-->
+<!--*                  
+                </div>
+                </div>
+                </div>
+                </div>
+
+*-->
+
+<!-- ============================================================================================================= -->
+<!-- ================ End of PageModal Snippet | Start of Open New Page Button Snippet =========================== -->
+<!-- ============================================================================================================= -->
+
+<!--*
+                <button class="btn btn-primary w-100 text-start mb-2" onclick="showPage('ID')">#</button> <!--* Replace the # with what you want the button on the page to say and ID with a unique ID for the page you want to open *-->
+<!--**-->
+
+<!-- ============================================================================================================= -->
+<!-- ================ End of Open New Page Button Snippet | Start of Pop Out Page Button Snippet ================= -->
+<!-- ============================================================================================================= -->
+
+<!--*
+              <a class="btn btn-primary w-100 text-start mb-2" href="#" onclick="openPopup('URL')">Button</a>     <!--* Replace Button with what you want the button on the page to say and URL with the web address of the page you want to open *-->
+
+<!--**-->
+
+<!-- ============================================================================================================= -->
+<!-- ================ End of Pop Out Page Button Snippet | Start of Toggle Section Code Snippet  ================= -->
+<!-- ============================================================================================================= -->
+
+<!--*
+  <button class="btn btn-primary w-100 text-start mb-2" onclick="toggleSection('ID')">#</button> <!--* Replace # with button label, ID with the section's unique ID *-->
+<!--*
+  <div id="ID" style="display:none;" class="mt-3"> <!--* Replace ID with the section's unique ID *-->
+
+<!--* Put the content you want to toggle here *-->
+
+<!--*   
+  </div>
+*-->
+
+<!-- ============================================================================================================= -->
+<!-- ============== End of Toggle Section Code Snippet  | Start of Bootstrap Alert Banner Snippet ================ -->
+<!-- ============================================================================================================= -->
+
+<!--*
+    <div class="alert alert-warning alert-dismissible fade show" role="alert"> <!--* The alert-warning can be changed using the options in the table below.
+    <strong>Heads up!</strong> This is a customizable alert message.
+          <!--* Optional: Add detailed instructions or context here *-->
+<!--*   
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+*-->
+
+<!--**************************************-->
+<!--* Bootstrap Alert Styles Reference   *-->
+<!--**************************************-->
+
+<!--*
+  | Style Class        | Purpose / Mood               | Color Default     |
+  |--------------------|------------------------------|-------------------|
+  | alert-primary      | Informational or neutral note| Blue              |
+  | alert-secondary    | Subtle or understated alerts | Grey              |
+  | alert-success      | Positive feedback or success | Green             |
+  | alert-danger       | Errors or critical warnings  | Red               |
+  | alert-warning      | Cautions or mild alerts      | Orange/Yellow     |
+  | alert-info         | Informational, less prominent| Cyan/Light Blue   |
+  | alert-light        | Very soft tone, low priority | Pale              |
+  | alert-dark         | High contrast or moody vibe  | Dark grey/Black   |
+*-->
+
+<!-- ============================================================================================================= -->
+<!-- ==================== End of Bootstrap Alert Banner Snippet | Start of Bootstrap Tabs Snippet ================ -->
+<!-- ============================================================================================================= -->
+
+<!--* How to use this code
+
+1. Each tab set must have unique IDs, for this use 01 - 99 replacing as required.
+2. Each tab in a set must also have a unique ID, for this use the set number and a letter a - z
+
+*-->
+
+<!-- Tabs navigation -->
+<!--*
+        <ul class="nav nav-tabs" id="tabNav01" role="tablist">
+        <!-- Tab button 1 -->
+<!--*
+        <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="tabBtn01a" data-bs-toggle="tab"
+        data-bs-target="#tabPane01a" type="button" role="tab"
+        aria-controls="tabPane01a" aria-selected="true">Tab 01A</button>
+        </li>
+
+        <!-- Tab button 2 -->
+<!--*
+        <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tabBtn01b" data-bs-toggle="tab"
+         data-bs-target="#tabPane01b" type="button" role="tab"
+        aria-controls="tabPane01b" aria-selected="false">Tab 01B</button>
+        </li>
+        </ul>
+
+        <!-- Tabs content -->
+<!--*
+        <div class="tab-content" id="tabContent01">
+        <!-- Content pane 1 -->
+<!--*
+        <div class="tab-pane fade show active" id="tabPane01a" role="tabpanel" aria-labelledby="tabBtn01a">
+        Content for Tab 01A.
+        </div>
+
+        <!-- Content pane 2 -->
+<!--*
+        <div class="tab-pane fade" id="tabPane01b" role="tabpanel" aria-labelledby="tabBtn01b">
+        Content for Tab 01B.
+        </div>
+        </div>
+*-->
+
+<!-- =========================================================================================================== -->
+<!-- =============== End of Bootstrap Tabs Snippet | Start of Bootstrap Breadcrumbs Snippet ==================== -->
+<!-- =========================================================================================================== -->
+
+<!--*
+Add this snippet to each page at the top of the page container (after the second line of code for each page)
+
+          <nav aria-label="breadcrumb"> <!--* Accessibility label: describes this as breadcrumb navigation *-->
+<!--*
+          <ol class="breadcrumb"> <!--* Ordered list for breadcrumb trail *-->
+
+<!--*
+          <li class="breadcrumb-item"><a onclick="showPage('home')">Home</a></li> <!--* Replace # with actual page URL *-->
+<!--*
+          <li class="breadcrumb-item"><a onclick="showPage('CC')">Catalogue</a></li> <!--* Add as many links as needed *-->
+<!--*
+          <<li class="breadcrumb-item active" aria-current="page">Statutory Training</li> <!--* Current page name *-->
+<!--*
+
+          </ol>
+          </nav>
+*-->
+
+<!-- ============================================================================================ -->
+<!-- ======= End of Bootstrap Breadcrumbs Snippet | Start of Bootstrap Carousel ================= -->
+<!-- ============================================================================================ -->
+
+<!--*
+          <div id="CID" class="carousel slide" data-bs-ride="carousel">     <!--* Replace CID with the carousel's unique ID *-->
+<!--*
+          <div class="carousel-indicators">
+          <button type="button" data-bs-target="#CID" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>   <!--* Replace CID with the carousel's unique ID *-->
+<!--*
+          <button type="button" data-bs-target="#CID" data-bs-slide-to="1" aria-label="Slide 2"></button>    <!--* Replace CID with the carousel's unique ID *-->
+<!--*      
+          <button type="button" data-bs-target="#CID" data-bs-slide-to="2" aria-label="Slide 3"></button>    <!--* Replace CID with the carousel's unique ID *-->
+
+<!--* Add more rows for each slide you want to include updating the data-bs-slide-to and aria-label to a new number *-->
+<!--*    
+          </div>
+
+<!--* Slide1 with captions *-->
+<!--*
+          <div class="carousel-inner">
+          <div class="carousel-item active">
+          <img src="#" class="d-block w-100" alt="##">  <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+<!--*        
+          <div class="carousel-caption d-none d-md-block">
+            <!--* Update with the text for the overlay *-->
+<!--*
+          <h5></h5>
+          <p></p>
+          </div>
+          </div>
+      
+<!--* Slide2 with captions *-->
+
+<!--*
+          <div class="carousel-item">
+          <img src="#" class="d-block w-100" alt="##"> <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+<!--*        
+          <div class="carousel-caption d-none d-md-block">
+            <!--* Update with the text for the overlay *-->
+<!--*          
+          <h5></h5>
+          <p></p>
+          </div>
+          </div>
+      
+<!--* Slide3 with captions *-->
+<!--*      
+          <div class="carousel-item">
+          <img src="#" class="d-block w-100" alt="##"> <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+<!--*        
+          <div class="carousel-caption d-none d-md-block">
+              <!--* Update with the text for the overlay *-->
+<!--*          
+          <h5></h5>
+          <p></p>
+          </div>
+          </div>
+          </div>
+
+<!--* Controls *-->
+<!--*
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselWithCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselWithCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+          </button>
+          </div>
+*-->
+
+<!-- ============================================================================================ -->
+<!-- ========== End of Bootstrap Carousel | Start of Responsive Image Embed ===================== -->
+<!-- ============================================================================================ -->
+
+<!--* 
+          <div class="text-center">
+          <img src="#" alt="##" class="img-fluid rounded shadow-sm" style="max-width: 100%; height: auto;">  <!--* Replace the # with that of the image location and ## with alternative text for screen readers *-->
+<!--* 
+          <small class="d-block mt-2 text-muted">#</small><!--* Replace the # with optional text text that will appear under the image *-->
+<!--* 
+          </div>
+*-->
